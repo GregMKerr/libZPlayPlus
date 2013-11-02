@@ -92,6 +92,7 @@ class  WMp3x : public ZPlay {
 		void __stdcall GetDynamicStreamLoad(TStreamLoadInfo *pStreamLoadInfo);
 		int __stdcall OpenResource(HMODULE hModule, const char *sResName, const char *sResType,  int nWaveBufferLengthMs, unsigned int nSeekFromStart, unsigned int nStreamSize);
 		int __stdcall Close();
+		int __stdcall Clear();
 		int __stdcall Play();
 		int __stdcall GetWaveOutInfo(unsigned int nIndex,TWaveOutInfo *pWaveOutInfo);
 		int __stdcall GetWaveOutInfoW(unsigned int nIndex,TWaveOutInfoW *pWaveOutInfo);

@@ -1472,6 +1472,37 @@ int __stdcall WMp3x::Close()
 }
 
 
+
+int __stdcall WMp3x::Clear(){
+	// clear decoder queue
+		while(c_queue_decoder.GetCount())
+		{
+			AUDIO_DECODER ad;
+			if(c_queue_decoder.PullFirst(&ad, sizeof(AUDIO_DECODER)))
+			{
+				// close decoder
+				if(ad.decoder)
+				{
+					ad.decoder->Close();
+					ad.decoder->Release();
+				}
+
+				// close file mapping
+				_CloseFileMapping(&ad.fm, ad.queue);
+
+				// delete queue
+				delete ad.queue;
+		
+			}
+		}
+
+		// clear decoder queue
+		c_queue_decoder.Clear();
+
+		return 1;
+}
+
+
 void __stdcall WMp3x::GetVUData(unsigned int *pnLeftChannel, unsigned int *pnRightChannel)
 {
 	err(WMP3X_NO_ERROR);

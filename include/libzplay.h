@@ -651,6 +651,7 @@ virtual void __stdcall GetDynamicStreamLoad(TStreamLoadInfo *pStreamLoadInfo) = 
 virtual void __stdcall GetStreamInfo(TStreamInfo *pInfo) = 0;
 virtual void __stdcall GetStreamInfoW(TStreamInfoW *pInfo) = 0;
 virtual int __stdcall Close() = 0;
+virtual int __stdcall Clear() = 0;
 virtual int __stdcall Play() = 0;
 virtual int __stdcall PlayLoop(TTimeFormat fFormatStartTime, TStreamTime *pStartTime, TTimeFormat fFormatEndTime, TStreamTime *pEndTime, unsigned int nNumOfCycles, unsigned int fContinuePlaying) = 0;
 virtual int __stdcall Seek(TTimeFormat fFormat, TStreamTime *pTime, TSeekMethod nMoveMethod) = 0;
@@ -778,6 +779,7 @@ W_DECLSPEC void __stdcall zplay_GetDynamicStreamLoad(ZPLAY_HANDLE handle,TStream
 W_DECLSPEC void __stdcall zplay_GetStreamInfo(ZPLAY_HANDLE handle,	TStreamInfo *pInfo);
 W_DECLSPEC void __stdcall zplay_GetStreamInfoW(ZPLAY_HANDLE handle, TStreamInfoW *pInfo);
 W_DECLSPEC int __stdcall zplay_Close(ZPLAY_HANDLE handle);
+W_DECLSPEC int __stdcall zplay_Clear(ZPLAY_HANDLE handle);
 W_DECLSPEC int __stdcall zplay_Play(ZPLAY_HANDLE handle);
 W_DECLSPEC int __stdcall zplay_PlayLoop(ZPLAY_HANDLE handle, TTimeFormat fFormatStartTime, TStreamTime *pStartTime, TTimeFormat fFormatEndTime, TStreamTime *pEndTime,	unsigned int nNumOfCycles, unsigned int fContinuePlaying);
 W_DECLSPEC int __stdcall zplay_Seek(ZPLAY_HANDLE handle, TTimeFormat fFormat, TStreamTime *pTime, TSeekMethod nMoveMethod);

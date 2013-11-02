@@ -315,6 +315,16 @@ int __stdcall libZPlay::zplay_Close(ZPLAY_HANDLE handle)
 
 }
 
+int __stdcall libZPlay::zplay_Clear(ZPLAY_HANDLE handle)
+{
+	WMp3x *instance = (WMp3x*) handle;
+	if(instance == 0)
+		return 0;
+
+	return instance->Clear();
+
+}
+
 int __stdcall libZPlay::zplay_Play(ZPLAY_HANDLE handle)
 {
 	WMp3x *instance = (WMp3x*) handle;
