@@ -14,3 +14,9 @@
 
 *.obj
 *.log
+testing/
+license/
+Release/
+Debug/
+decoders/
+!decoders/libFLAC/*.c
