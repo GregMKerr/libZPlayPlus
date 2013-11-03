@@ -225,7 +225,6 @@ int __stdcall SetWaveOutFileW(const wchar_t *sFileName, TStreamFormat nFormat, u
 
 // ============================================================================================================
 
-
 	// indicates that all is ready to play
 	int c_fReady;
 

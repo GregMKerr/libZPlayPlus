@@ -208,6 +208,36 @@ public:
 
 // ==================================================================================================
 
+	//	copy data from element at specified index into memory block, but DON'T REMOVE element from queue
+
+	unsigned int QueryIndex(void *pDest, unsigned int nSize, unsigned int index);
+
+	//	PARAMETERS:
+	//		pDest
+	//			Points to the starting address of the destination block.
+	//			If this value is 0, function returns size, in bytes, of data block
+	//			stored in first element of queue.
+	//
+	//		nSize
+	//			Specifies the size, in bytes, of the destination memory block.
+	//			If this value is 0, function returns size, in bytes, of data block
+	//			stored in first element of queue.		
+	//
+	//		index
+	//			Specifies the location in the queue to copy data from
+	//	
+	//	RETURN VALUES:
+	//		This function returns number of bytes copied from queue element into
+	//		destination memory block.
+	//		If pDest is 0, function return size, in bytes, of data stored in first
+	//		element of queue. Use this value to allocate needed memory for pDest.
+	//
+	//		If return value is 0, queue is empty.
+	//		
+	//
+	//	REMARKS:
+	//		If nSize parameter is smaller than data stored in queue element, function
+	//		copies only nSize bytes of data.
 
 // ==================================================================================================
 

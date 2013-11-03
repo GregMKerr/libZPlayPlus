@@ -51,7 +51,6 @@ extern WAVEIN_ID g_wavein_id[WAVE_IN_NUM];
 #endif
 
 
-
 enum {
 	WMP3X_NO_ERROR = 0,
 	WMP3X_MEMORY_ALLOCATION_FAIL,
@@ -87,8 +86,6 @@ enum {
 	WMP3X_NO_ID3_DATA,
 	WMP3X_UNKNOWN_ERROR
 };
-
-
 
 
 wchar_t *g_error_strW[WMP3X_UNKNOWN_ERROR + 1] = {
@@ -127,14 +124,10 @@ wchar_t *g_error_strW[WMP3X_UNKNOWN_ERROR + 1] = {
 };
 
 
-
-
-
 // play section return values
 #define PLAY_FATAL_ERROR 2
 #define PLAY_USER_STOP 1
 #define PLAY_OK 0
-
 
 
 typedef struct {
@@ -203,7 +196,6 @@ typedef struct {
 	unsigned int nEnd;
 	unsigned int nSongIndex;
 } WAVE_USER_DATA;
-
 
 
 int  EncoderCallback(void *data, unsigned int data_size, void *user_data);
@@ -525,7 +517,6 @@ WMp3x::~WMp3x()
 }
 
 
-
 void _InitFileMapping(FILE_MAPPING *pfm, WQueue *queue, int fBuffered)
 {
 	pfm->hViewOfFile = 0;
@@ -533,7 +524,6 @@ void _InitFileMapping(FILE_MAPPING *pfm, WQueue *queue, int fBuffered)
 	pfm->hFile = INVALID_HANDLE_VALUE;
 	queue->SetMemoryMode(fBuffered);
 }
-
 
 void _CloseFileMapping(FILE_MAPPING *pfm, WQueue *queue)
 {
@@ -557,7 +547,6 @@ void _CloseFileMapping(FILE_MAPPING *pfm, WQueue *queue)
 
 	queue->Clear();
 }
-
 
 int _OpenFileMapping(wchar_t *sFileName, FILE_MAPPING *pfm, WQueue *queue)
 {
@@ -613,11 +602,6 @@ int _OpenFileMapping(wchar_t *sFileName, FILE_MAPPING *pfm, WQueue *queue)
 	return 1;
 }
 
-
-
-
-
-
 int __stdcall WMp3x::OpenFile(const char *sFileName, TStreamFormat nFormat)
 {
 	err(WMP3X_NO_ERROR);
@@ -643,7 +627,6 @@ int __stdcall WMp3x::OpenFile(const char *sFileName, TStreamFormat nFormat)
 	return ret;
 		
 }
-
 
 int __stdcall WMp3x::OpenFileW(const wchar_t *sFileName, TStreamFormat nFormat)
 {
@@ -722,8 +705,6 @@ int __stdcall WMp3x::OpenFileW(const wchar_t *sFileName, TStreamFormat nFormat)
 	return 1;			
 }
 
-
-
 int __stdcall WMp3x::Stop()
 {
 	err(WMP3X_NO_ERROR);
@@ -787,8 +768,6 @@ int __stdcall WMp3x::Stop()
     return 1;
 
 }
-
-
 
 int __stdcall WMp3x::Play()
 {	
@@ -861,7 +840,6 @@ int __stdcall WMp3x::Play()
     return 1;
 }
 
-
 int __stdcall WMp3x::DrawBitmapToHWND(void *hwnd, int X, int Y, int Width, int Height, void *hBitmap)
 {
 	HDC hdc = GetDC((HWND) hwnd);
@@ -874,7 +852,6 @@ int __stdcall WMp3x::DrawBitmapToHWND(void *hwnd, int X, int Y, int Width, int H
 
 	return 0;
 }
-
 
 int __stdcall WMp3x::DrawBitmapToHDC(void *hdc, int X, int Y, int Width, int Height, void *hBitmap)
 {
@@ -916,9 +893,6 @@ int __stdcall WMp3x::DrawBitmapToHDC(void *hdc, int X, int Y, int Width, int Hei
 	return 1;
 
 }
-
-
-
 
 void __stdcall WMp3x::GetStreamInfo(TStreamInfo *pInfo)
 {
@@ -966,8 +940,6 @@ void __stdcall WMp3x::GetStreamInfo(TStreamInfo *pInfo)
 	pInfo->Length.hms.millisecond = length % 1000;
 
 }
-
-
 
 void __stdcall WMp3x::GetStreamInfoW(TStreamInfoW *pInfo)
 {
@@ -1017,7 +989,6 @@ void __stdcall WMp3x::GetStreamInfoW(TStreamInfoW *pInfo)
 	pInfo->Length.hms.second = length / 1000;
 	pInfo->Length.hms.millisecond = length % 1000;
 }
-
 
 int __stdcall WMp3x::Pause()
 {
@@ -1073,9 +1044,6 @@ int __stdcall WMp3x::Resume()
 
     return 1;
 }
-
-
-
 
 int __stdcall WMp3x::Seek(TTimeFormat fFormat, TStreamTime *pTime, TSeekMethod nMoveMethod)
 {
@@ -1238,10 +1206,6 @@ int __stdcall WMp3x::Seek(TTimeFormat fFormat, TStreamTime *pTime, TSeekMethod n
 	return 1;
 }
 
-
-
-
-
 void __stdcall WMp3x::GetStatus(TStreamStatus *pStatus)
 {
 	err(WMP3X_NO_ERROR);
@@ -1296,12 +1260,6 @@ void __stdcall WMp3x::GetStatus(TStreamStatus *pStatus)
 	pStatus->fReverse = c_fReverseMode;
 }
 
-
-
-
-
-
-
 int __stdcall WMp3x::GetBitrate(int fAverage)
 { 
 	if(c_fReady == 0 || c_fPlay == 0)
@@ -1309,10 +1267,6 @@ int __stdcall WMp3x::GetBitrate(int fAverage)
 
 	return c_decoder->GetBitrate(fAverage) / 1000;	
 }
-
-
-
-
 
 int __stdcall WMp3x::Close()
 {
@@ -1471,8 +1425,6 @@ int __stdcall WMp3x::Close()
 
 }
 
-
-
 int __stdcall WMp3x::Clear(){
 	// clear decoder queue
 		while(c_queue_decoder.GetCount())
@@ -1501,7 +1453,6 @@ int __stdcall WMp3x::Clear(){
 
 		return 1;
 }
-
 
 void __stdcall WMp3x::GetVUData(unsigned int *pnLeftChannel, unsigned int *pnRightChannel)
 {
@@ -1622,11 +1573,6 @@ void __stdcall WMp3x::GetVUData(unsigned int *pnLeftChannel, unsigned int *pnRig
 	}
 }
 
-
-
-
-
-
 int __stdcall WMp3x::EnableEqualizer(int fEnable)
 {
 	err(WMP3X_NO_ERROR);
@@ -1638,8 +1584,6 @@ int __stdcall WMp3x::EnableEqualizer(int fEnable)
 
 	return 1;
 }
-
-
 
 int __stdcall WMp3x::SetEqualizerParam(int nPreAmpGain, int *pnBandGain, int nNumberOfBands)
 {
@@ -1654,10 +1598,6 @@ int __stdcall WMp3x::SetEqualizerParam(int nPreAmpGain, int *pnBandGain, int nNu
 	return 1;
 }
 
-
-
-
-
 int __stdcall WMp3x::GetEqualizerParam( int *pnPreAmpGain, int *pnBandGain, int nNumberOfBands)
 {
 	err(WMP3X_NO_ERROR);
@@ -1671,10 +1611,6 @@ int __stdcall WMp3x::GetEqualizerParam( int *pnPreAmpGain, int *pnBandGain, int 
 
 	return num;
 }
-
-
-
-
 
 int __stdcall WMp3x::PlayLoop(TTimeFormat fFormatStartTime, TStreamTime *pStartTime, TTimeFormat fFormatEndTime, TStreamTime *pEndTime, unsigned int nNumOfCycles, unsigned int fContinuePlaying)
 {
@@ -1825,7 +1761,6 @@ int __stdcall WMp3x::PlayLoop(TTimeFormat fFormatStartTime, TStreamTime *pStartT
 
 }
 
-
 int __stdcall WMp3x::MixChannels(int fEnable, unsigned int nLeftPercent, unsigned int nRightPercent)
 {
 	err(WMP3X_NO_ERROR);
@@ -1847,8 +1782,6 @@ int __stdcall WMp3x::MixChannels(int fEnable, unsigned int nLeftPercent, unsigne
 			
 	return 1;
 }
-
-
 
 int __stdcall WMp3x::SlideVolume(
 			int fFormatStart,				// flag specifying time format of starting position
@@ -1966,10 +1899,6 @@ int __stdcall WMp3x::SlideVolume(
 }
 
 
-
-
-
-
 void __stdcall WMp3x::GetPosition(TStreamTime *pTime)
 {
 	err(WMP3X_NO_ERROR);
@@ -1998,31 +1927,21 @@ void __stdcall WMp3x::GetPosition(TStreamTime *pTime)
 	
 }
 
-
-
-
-
-
 void WMp3x::_GetInternalVolume(WMp3x *instance, unsigned int *lvolume, unsigned int *rvolume)
 {
 	*lvolume = instance->c_nLeftVolume;
 	*rvolume = instance->c_nRightVolume;
 }
 
-
-
 char * __stdcall WMp3x::GetError()
 { 
 	return (char*) &c_error_messageA;
 }
 
-
 wchar_t * __stdcall WMp3x::GetErrorW()
 { 
 	return (wchar_t*) &c_error_messageW;
 }
-
-
 
 int __stdcall WMp3x::SetEqualizerPoints(int *pnFreqPoint, int nNumOfPoints)
 {
@@ -2039,7 +1958,6 @@ int __stdcall WMp3x::SetEqualizerPoints(int *pnFreqPoint, int nNumOfPoints)
 	return 1;
 }
 
-
 int __stdcall WMp3x::GetEqualizerPoints(int *pnFreqPoint, int nFreqPointNumber)
 {
 	err(WMP3X_NO_ERROR);
@@ -2054,16 +1972,10 @@ int __stdcall WMp3x::GetEqualizerPoints(int *pnFreqPoint, int nFreqPointNumber)
 	return num;
 }
 
-
-
-
-
-
 void __stdcall WMp3x::Release()
 {
 	delete this;
 }
-
 
 int __stdcall WMp3x::IsStreamDataFree(const void *sMemNewData)
 {
@@ -2116,7 +2028,6 @@ int __stdcall WMp3x::PushDataToStream(const void *sMemNewData, unsigned int nNew
 
 }
 
-
 void __stdcall WMp3x::GetDynamicStreamLoad(TStreamLoadInfo *pStreamLoadInfo)
 {
 	err(WMP3X_NO_ERROR);
@@ -2134,8 +2045,6 @@ void __stdcall WMp3x::GetDynamicStreamLoad(TStreamLoadInfo *pStreamLoadInfo)
 	pStreamLoadInfo->NumberOfBytes = cMainQueue.GetSizeSum();
 
 }
-
-
 
 int __stdcall WMp3x::OpenStream(int fBuffered, int fManaged, const void *sMemStream, unsigned int nStreamSize, TStreamFormat nFormat)
 {
@@ -2212,7 +2121,6 @@ int __stdcall WMp3x::OpenStream(int fBuffered, int fManaged, const void *sMemStr
 
 	return 1;
 }
-
 
 int __stdcall WMp3x::EnumerateWaveOut()
 {
@@ -2332,7 +2240,6 @@ int __stdcall WMp3x::GetWaveOutInfoW(unsigned int nIndex, TWaveOutInfoW *pWaveOu
 
 	return 1;
 }
-
 
 int __stdcall WMp3x::EnumerateWaveIn()
 {
@@ -2471,8 +2378,6 @@ int __stdcall WMp3x::SetWaveInDevice(unsigned int nIndex)
 	return 1;
 }
 
-
-
 int __stdcall WMp3x::SetWaveOutDevice(unsigned int nIndex)
 {
 	err(WMP3X_NO_ERROR);
@@ -2494,8 +2399,6 @@ int __stdcall WMp3x::SetWaveOutDevice(unsigned int nIndex)
 	
 	return 1;
 }
-
-
 
 unsigned int Mp3TimeToSamples(int fFormat, TStreamTime *pTime, unsigned int nSampleRate)
 {
@@ -2607,8 +2510,6 @@ int __stdcall WMp3x::ReverseMode(int fEnable)
 	return 1;
 }
 
-
-
 void WMp3x::_ChangeVolume(WMp3x *instance, unsigned char *buf, unsigned int size)
 {
 	unsigned int j;
@@ -2623,11 +2524,6 @@ void WMp3x::_ChangeVolume(WMp3x *instance, unsigned char *buf, unsigned int size
         *right = (short) ((double)*right * instance->c_dRightGain);
 	}	
 }
-
-
-
-
-
 
 int __stdcall WMp3x::GetVersion()
 {
@@ -2685,7 +2581,6 @@ int __stdcall WMp3x::SetCallbackFunc(TCallbackFunc callback, TCallbackMessage nM
 	return 1;
 }
 
-
 int WINAPI WMp3x::CallbackThreadFunc(void* lpdwParam)
 {
 	WMp3x *instance = (WMp3x*) lpdwParam;
@@ -2713,7 +2608,6 @@ int WINAPI WMp3x::CallbackThreadFunc(void* lpdwParam)
 
 	return 1;
 }
-
 
 int __stdcall WMp3x::SetMasterVolume(unsigned int nLeftVolume,unsigned int nRightVolume)
 {
@@ -2748,7 +2642,6 @@ int __stdcall WMp3x::SetMasterVolume(unsigned int nLeftVolume,unsigned int nRigh
 
 	return 1;
 }
-
 
 int __stdcall WMp3x::SetPlayerVolume(unsigned int nLeftVolume, unsigned int nRightVolume)
 {
@@ -2808,7 +2701,6 @@ void WMp3x::_SetPlayerVolume(WMp3x *instance, unsigned int nLeftVolume, unsigned
 
 }
 
-
 void __stdcall WMp3x::GetMasterVolume(unsigned int *pnLeftVolume,unsigned int *pnRightVolume)
 {
 	err(WMP3X_NO_ERROR);
@@ -2853,9 +2745,6 @@ void __stdcall WMp3x::GetPlayerVolume(unsigned int *pnLeftVolume, unsigned int *
 		*pnRightVolume = c_nRightVolume;
 
 }
-
-
-
 
 int WMp3x::_SendFadeEnter(WMp3x *instance)
 {
@@ -2911,9 +2800,6 @@ int WMp3x::_SendFadeExit(WMp3x *instance)
 	return callback_ret;
 }
 
-
-
-
 int WMp3x::_SendLoopEnter(WMp3x *instance)
 {
 	int callback_ret = 0;
@@ -2932,7 +2818,6 @@ int WMp3x::_SendLoopEnter(WMp3x *instance)
 
 	return callback_ret;
 }
-
 
 int WMp3x::_SendLoopExit(WMp3x *instance)
 {
@@ -2954,9 +2839,6 @@ int WMp3x::_SendLoopExit(WMp3x *instance)
 	return callback_ret;
 }
 
-
-
-
 int WMp3x::send_buffer_done(WMp3x *instance, unsigned int count, unsigned int sumsize)
 {
 	int callback_ret = 0;
@@ -2969,8 +2851,6 @@ int WMp3x::send_buffer_done(WMp3x *instance, unsigned int count, unsigned int su
 								
 	return callback_ret;
 }
-
-
 
 int WMp3x::send_stream_out_of_data(WMp3x *instance)
 {
@@ -2985,8 +2865,6 @@ int WMp3x::send_stream_out_of_data(WMp3x *instance)
 	return callback_ret;
 }
 
-
-
 int WMp3x::send_stop(WMp3x *instance)
 {
 	int callback_ret = 0;
@@ -2999,8 +2877,6 @@ int WMp3x::send_stop(WMp3x *instance)
 
 	return callback_ret;
 }
-
-
 
 int WMp3x::send_callback_message(WMp3x *instance, unsigned int message, unsigned int param1, unsigned int param2)
 {
@@ -3020,10 +2896,6 @@ int WMp3x::send_callback_message(WMp3x *instance, unsigned int message, unsigned
 
 	return instance->c_callback_ret;
 }
-
-
-
-
 
 void WMp3x::load_fft_stereo_buffer(WMp3x *instance, int *pSamples, unsigned int nNumberOfSamples)
 {
@@ -3070,7 +2942,6 @@ void WMp3x::load_fft_stereo_buffer(WMp3x *instance, int *pSamples, unsigned int 
 
 
 }
-
 
 int __stdcall WMp3x::GetFFTData(
 									int nFFTPoints,			// specify number of fft points. Set this value to:  32, 64, 128, 256, 512, 1024, 2048, 8192, 16384
@@ -3199,9 +3070,6 @@ int __stdcall WMp3x::GetFFTData(
 }
 
  
-
-
-
 void WMp3x::_MixChannels(WMp3x *instance, unsigned char *buf, unsigned int size)
 {
 	unsigned int j;
@@ -3218,7 +3086,6 @@ void WMp3x::_MixChannels(WMp3x *instance, unsigned char *buf, unsigned int size)
         *right = mix;
 	}
 }
-
 
 int  WMp3x::_SetFormat(TStreamFormat nFormat)
 {
@@ -3441,9 +3308,6 @@ int  WMp3x::_SetFormat(TStreamFormat nFormat)
 
 	return 1;
 }
-
-
-
 
 int WINAPI WMp3x::_ThreadFuncPCM(void* lpdwParam)
 {
@@ -3752,11 +3616,12 @@ int WINAPI WMp3x::_ThreadFuncPCM(void* lpdwParam)
 					WAudioDecoder *decoder = NULL;
 					if(instance->c_queue_decoder.PullFirst(&ad, sizeof(AUDIO_DECODER)))
 					{
+						//index++;
 						decoder = ad.decoder;
 						if(decoder)
 						{
 							instance->c_InputProcessor.Flush(1);
-							instance->c_nSongIndex++;
+							instance->c_nSongIndex++;//apparently the index i need already exists...
 
 
 							// delete old decoder, but preserve info
@@ -3919,10 +3784,6 @@ int WINAPI WMp3x::_ThreadFuncPCM(void* lpdwParam)
 	return 1;	
 }
 
-
-
-
-
 int __stdcall WMp3x::EnableEcho(int fEnable)
 {
 	err(WMP3X_NO_ERROR);
@@ -3962,12 +3823,7 @@ int __stdcall WMp3x::GetEchoParam(TEchoEffect *pEchoEffect, int nNumberOfEffects
 }
 
 
-
-
 // =========================================================================================================================
-
-
-
 
 int __stdcall WMp3x::SetRate(unsigned int nRate)
 {
@@ -3987,8 +3843,6 @@ int __stdcall WMp3x::SetRate(unsigned int nRate)
 	c_SoundTouchProcessor.SetRate(nRate);
 	return 1;
 }
-
-
 
 int __stdcall WMp3x::SetPitch(unsigned int nPitch)
 {
@@ -4049,8 +3903,6 @@ unsigned int __stdcall WMp3x::GetTempo()
 {
 	return c_SoundTouchProcessor.GetTempo();
 }
-
-
 
 int WMp3x::_Open(WMp3x* instance, int nWaveBufferLengthMs)
 {
@@ -4223,9 +4075,7 @@ int WMp3x::_Open(WMp3x* instance, int nWaveBufferLengthMs)
 
 
 
-
 // -----------------------------------------------------------------------------------------------------------------
-
 
 int __stdcall WMp3x::StereoCut(int fEnable, int fOutputCenter, int fBassToSides)
 {
@@ -4247,9 +4097,6 @@ int __stdcall WMp3x::StereoCut(int fEnable, int fOutputCenter, int fBassToSides)
 
 	return 1;
 }
-
-
-
 
 TStreamFormat __stdcall WMp3x::GetFileFormat(const char *pchFileName)
 {
@@ -4573,9 +4420,6 @@ TStreamFormat __stdcall WMp3x::GetFileFormatW(const wchar_t *pchFileName)
 	err(WMP3X_UNKNOWN_FILE_FORMAT);
 	return sfUnknown;
 }
-
-
-
 
 int WMp3x::_PlayingLoop(WMp3x *instance, unsigned int fFlush)
 {
@@ -5028,10 +4872,6 @@ int WMp3x::_PlayingLoop(WMp3x *instance, unsigned int fFlush)
 	return PLAY_OK;
 }
 
-
-
-
-
 int WMp3x::_AllocateVUBuffers(WMp3x *instance)
 {
 
@@ -5078,7 +4918,6 @@ void WMp3x::_FreeVUBuffers(WMp3x *instance)
 	instance->c_pchVUDataBufferRight = 0;
 	instance->c_nVUDataBufferSize = 0;
 }
-
 
 void CALLBACK WMp3x::_WaveOutProc(HWAVEOUT hwo, UINT uMsg, DWORD dwInstance,DWORD dwParam1, DWORD dwParam2)
 {
@@ -5132,9 +4971,6 @@ void CALLBACK WMp3x::_WaveOutProc(HWAVEOUT hwo, UINT uMsg, DWORD dwInstance,DWOR
 		
 }
 
-
-
-
 void WMp3x::err(unsigned int error_code)
 {
 	if(error_code > WMP3X_UNKNOWN_ERROR)
@@ -5148,7 +4984,6 @@ void WMp3x::err(unsigned int error_code)
 	c_error_messageA[MAX_ERROR_MESSAGE] = 0;
 }
 
-
 void WMp3x::err(DECODER_ERROR_MESSAGE *error)
 {
 	ASSERT_W(error);
@@ -5159,8 +4994,6 @@ void WMp3x::err(DECODER_ERROR_MESSAGE *error)
 	WideCharToMultiByte(CP_ACP, WC_COMPOSITECHECK, c_error_messageW, -1, c_error_messageA, MAX_ERROR_MESSAGE, NULL, NULL);
 	c_error_messageA[MAX_ERROR_MESSAGE] = 0;
 }
-
-
 
 int __stdcall WMp3x::DetectBPM(TBMPDetectionMethod nMethod)
 {
@@ -5278,8 +5111,6 @@ int __stdcall WMp3x::DetectBPM(TBMPDetectionMethod nMethod)
 
 }
 
-
-
 int __stdcall WMp3x::DetectFileBPM(const char *pchFileName, TStreamFormat nFormat, TBMPDetectionMethod nMethod)
 {
 	err(WMP3X_NO_ERROR);
@@ -5301,9 +5132,6 @@ int __stdcall WMp3x::DetectFileBPM(const char *pchFileName, TStreamFormat nForma
 	free(filename);
 	return ret;
 }
-
-
-
 
 int __stdcall WMp3x::DetectFileBPMW(const wchar_t *pchFileName, TStreamFormat nFormat, TBMPDetectionMethod nMethod)
 {
@@ -5471,8 +5299,6 @@ int __stdcall WMp3x::DetectFileBPMW(const wchar_t *pchFileName, TStreamFormat nF
 
 }
 
-
-
 int __stdcall WMp3x::DrawFFTGraphOnHWND(void* hwnd, int nX, int nY, int nWidth, int nHeight)
 {
 	HDC hdc = GetDC((HWND) hwnd);
@@ -5480,8 +5306,6 @@ int __stdcall WMp3x::DrawFFTGraphOnHWND(void* hwnd, int nX, int nY, int nWidth, 
 	ReleaseDC((HWND) hwnd, hdc);
 	return ret;
 }
-
-
 
 int __stdcall WMp3x::DrawFFTGraphOnHDC(void* hdc, int nX, int nY, int nWidth, int nHeight)
 {
@@ -5549,11 +5373,6 @@ int __stdcall WMp3x::DrawFFTGraphOnHDC(void* hdc, int nX, int nY, int nWidth, in
 	LeaveCriticalSection(&c_CS_FFT);
 	return 1;
 }
-
-
-
-
-
 
 int __stdcall WMp3x::SetFFTGraphParam(TFFTGraphParamID nParamID, int nValue)
 {
@@ -5719,7 +5538,6 @@ int __stdcall WMp3x::SetFFTGraphParam(TFFTGraphParamID nParamID, int nValue)
 	return 1;
 }
 
-
 int __stdcall WMp3x::GetFFTGraphParam(TFFTGraphParamID nParamID)
 {
 	err(WMP3X_NO_ERROR);
@@ -5799,7 +5617,6 @@ int __stdcall WMp3x::GetFFTGraphParam(TFFTGraphParamID nParamID)
 	return 1;
 }
 
-
 int __stdcall WMp3x::SetEqualizerPreampGain(int nGain)
 {
 	err(WMP3X_NO_ERROR);
@@ -5836,7 +5653,6 @@ int __stdcall WMp3x::GetEqualizerBandGain(int nBandIndex)
 	return c_EqualizerProcessor.GetBandGain(nBandIndex);
 
 }
-
 
 int __stdcall WMp3x::AddFile(const char *sFileName, TStreamFormat nFormat)
 {
@@ -6010,9 +5826,6 @@ int __stdcall WMp3x::AddFileW(const wchar_t *sFileName, TStreamFormat nFormat)
 
 }
 
-
-
-
 WAudioDecoder *WMp3x::_GetAudioDecoder(TStreamFormat nFormat)
 {
 
@@ -6065,10 +5878,6 @@ WAudioDecoder *WMp3x::_GetAudioDecoder(TStreamFormat nFormat)
 	return NULL;
 }
 
-
-
-
-
 WAudioEncoder *WMp3x::_GetAudioEncoder(TStreamFormat nFormat)
 {
 
@@ -6102,7 +5911,6 @@ WAudioEncoder *WMp3x::_GetAudioEncoder(TStreamFormat nFormat)
 
 	return NULL;
 }
-
 
 int __stdcall WMp3x::SetSettings(TSettingID nSettingID, int nValue)
 {
@@ -6184,7 +5992,6 @@ int __stdcall WMp3x::SetSettings(TSettingID nSettingID, int nValue)
 	return 1;
 }
 
-
 int __stdcall WMp3x::GetSettings(TSettingID nSettingID)
 {
 	switch(nSettingID)
@@ -6219,7 +6026,6 @@ int __stdcall WMp3x::GetSettings(TSettingID nSettingID)
 		return 0;
 	}
 }
-
 
 unsigned int PngLoadImage(png_byte *memory_block, unsigned int block_size, png_byte **ppbImageData,
                    unsigned int *piWidth, unsigned int *piHeight, unsigned int *piChannels, png_color *pBkgColor)
@@ -6397,14 +6203,10 @@ unsigned int PngLoadImage(png_byte *memory_block, unsigned int block_size, png_b
     return 1;
 }
 
-
-
-
 static void png_cexcept_error(png_structp png_ptr, png_const_charp msg)
 {
     throw msg;
 }
-
 
 static void png_read_data(png_structp png_ptr, png_bytep data, png_size_t length)
 {
@@ -6425,8 +6227,6 @@ static void png_read_data(png_structp png_ptr, png_bytep data, png_size_t length
 	stream->size -= length;
 
 }
-
-
 
 HBITMAP CreateBitmapFromMemory1(HDC hdc, int nWidth, int nHeight, unsigned int nBitPerPixel,
 			RGBQUAD *rgbColorTable, unsigned int nColorUsed,
@@ -6509,8 +6309,6 @@ HBITMAP CreateBitmapFromMemory1(HDC hdc, int nWidth, int nHeight, unsigned int n
 
 	return hbm;
 }
-
-
 
 
 /*
@@ -6601,7 +6399,6 @@ my_error_exit (j_common_ptr cinfo)
   longjmp(myerr->setjmp_buffer, 1);
 }
 
-
 METHODDEF(void)
 my_output_message (j_common_ptr cinfo)
 {
@@ -6616,7 +6413,6 @@ my_output_message (j_common_ptr cinfo)
 #endif
 
 }
-
 
 HBITMAP read_JPEG_file(char *memory_block, unsigned int block_size, unsigned int *width, unsigned int *height)
 {
@@ -6849,10 +6645,6 @@ HBITMAP read_JPEG_file(char *memory_block, unsigned int block_size, unsigned int
   return hbm;
 }
 
-
-
-
-
 HBITMAP DecodePicture(char *sMIME, char *memory_block, unsigned int block_size, unsigned int *pnWidth, unsigned int *pnHeight)
 {
 	HBITMAP out = NULL;
@@ -6973,9 +6765,6 @@ HBITMAP DecodePicture(char *sMIME, char *memory_block, unsigned int block_size, 
 	return out;
 }
 
-
-
-
 void ConvertFieldUTF16ToANSI(wchar_t *src)
 {
 
@@ -6990,7 +6779,6 @@ void ConvertFieldUTF16ToANSI(wchar_t *src)
 	else
 		src[0] = 0;
 }
-
 
 void ConvertID3UTF16ToANSI(TID3InfoExW *info)
 {
@@ -7013,8 +6801,6 @@ void ConvertID3UTF16ToANSI(TID3InfoExW *info)
 	ConvertFieldUTF16ToANSI(info->Picture.MIMEType);
 	
 }
-
-
 
 int __stdcall WMp3x::LoadFileID3(const char *pchFileName, TStreamFormat nFormat, TID3Version nId3Version, TID3Info *pId3Info)
 {
@@ -7047,7 +6833,6 @@ int __stdcall WMp3x::LoadFileID3(const char *pchFileName, TStreamFormat nFormat,
 	pId3Info->Year =  info.Year;
 	return 1;
 }
-
 
 int __stdcall WMp3x::LoadFileID3W(const wchar_t *pchFileName, TStreamFormat nFormat, TID3Version nId3Version, TID3InfoW *pId3Info)
 {
@@ -7082,7 +6867,6 @@ int __stdcall WMp3x::LoadFileID3W(const wchar_t *pchFileName, TStreamFormat nFor
 	return 1;
 }
 
-
 int __stdcall WMp3x::LoadFileID3Ex(const char *pchFileName, TStreamFormat nFormat, TID3InfoEx *pId3Info, unsigned int fDecodeEmbededPicture)
 {
 	err(WMP3X_NO_ERROR);
@@ -7113,7 +6897,6 @@ int __stdcall WMp3x::LoadFileID3Ex(const char *pchFileName, TStreamFormat nForma
 	ConvertID3UTF16ToANSI((TID3InfoExW*) pId3Info);
 	return 1;
 }
-
 
 void WMp3x::_FormatID3(wchar_t **info, TID3InfoExW *pId3Info, int fDecodeEmbededPicture)
 {
@@ -7180,7 +6963,6 @@ void WMp3x::_FormatID3(wchar_t **info, TID3InfoExW *pId3Info, int fDecodeEmbeded
 		pId3Info->Picture.Height = nHeight;
 
 }
-
 
 int __stdcall WMp3x::LoadFileID3ExW(const wchar_t *pchFileName, TStreamFormat nFormat, TID3InfoExW *pId3Info, unsigned int fDecodeEmbededPicture)
 {
@@ -7311,9 +7093,6 @@ int __stdcall WMp3x::LoadFileID3ExW(const wchar_t *pchFileName, TStreamFormat nF
 	return 0;
 }
 
-
-
-
 int __stdcall WMp3x::LoadID3ExW(TID3InfoExW *pId3Info, unsigned int fDecodeEmbededPicture)
 {
 	// main ID3 access
@@ -7372,7 +7151,6 @@ int __stdcall WMp3x::LoadID3ExW(TID3InfoExW *pId3Info, unsigned int fDecodeEmbed
 
 }
 
-
 int __stdcall WMp3x::LoadID3Ex(TID3InfoEx *pId3Info, unsigned int fDecodeEmbededPicture)
 {
 	err(WMP3X_NO_ERROR);
@@ -7386,7 +7164,6 @@ int __stdcall WMp3x::LoadID3Ex(TID3InfoEx *pId3Info, unsigned int fDecodeEmbeded
 	ConvertID3UTF16ToANSI((TID3InfoExW*) pId3Info);
 	return 1;
 }
-
 
 int __stdcall WMp3x::LoadID3(TID3Version nId3Version, TID3Info *pId3Info)
 {
@@ -7419,7 +7196,6 @@ int __stdcall WMp3x::LoadID3(TID3Version nId3Version, TID3Info *pId3Info)
 	pId3Info->Year = (char*) info.Year;
 	return 1;
 }
-
 
 int __stdcall WMp3x::LoadID3W(TID3Version nId3Version, TID3InfoW *pId3Info)
 {
@@ -7474,7 +7250,6 @@ int __stdcall WMp3x::SetWaveOutFile(const char *sFileName, TStreamFormat nFormat
 	return ret;
 }
 
-
 int WMp3x::_CheckEncoderFormat(TStreamFormat nFormat)
 {
 #ifndef LIBZPLAY_PF_VERSION
@@ -7493,7 +7268,6 @@ int WMp3x::_CheckEncoderFormat(TStreamFormat nFormat)
 
 	return 1;
 }
-
 
 int __stdcall WMp3x::SetWaveOutFileW(const wchar_t *sFileName, TStreamFormat nFormat, unsigned int fOutputToSoundcard)
 {
@@ -7548,7 +7322,6 @@ int __stdcall WMp3x::SetWaveOutFileW(const wchar_t *sFileName, TStreamFormat nFo
 	return 1;		
 }
 
-
 int  EncoderCallback(void *data, unsigned int data_size, void *user_data)
 {
 	HANDLE hFile = (HANDLE) user_data;
@@ -7556,7 +7329,6 @@ int  EncoderCallback(void *data, unsigned int data_size, void *user_data)
 	WriteFile(hFile, data, data_size, &out, NULL); 
 	return 1;
 }
-
 
 unsigned int  WMp3x::read_callback(void *data, unsigned int data_size, void *user_data)
 {
@@ -7566,7 +7338,6 @@ unsigned int  WMp3x::read_callback(void *data, unsigned int data_size, void *use
 	return dwRead;		
 
 }
-
 
 unsigned int  WMp3x::write_callback(void *data, unsigned int data_size, void *user_data)
 {

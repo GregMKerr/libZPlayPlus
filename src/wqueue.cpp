@@ -1,27 +1,27 @@
 /*
- *  libzplay - windows ( WIN32 ) multimedia library for playing mp3, mp2, ogg, wav, flac and raw PCM streams
- *  WQueue class
- *
- *  Copyright (C) 2003-2009 Zoran Cindori ( zcindori@inet.hr )
- *
- *  This program is free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- *
- *
- * ver: 1.14
- * date: 15. April, 2010.
- *
+*  libzplay - windows ( WIN32 ) multimedia library for playing mp3, mp2, ogg, wav, flac and raw PCM streams
+*  WQueue class
+*
+*  Copyright (C) 2003-2009 Zoran Cindori ( zcindori@inet.hr )
+*
+*  This program is free software; you can redistribute it and/or modify
+*  it under the terms of the GNU General Public License as published by
+*  the Free Software Foundation; either version 2 of the License, or
+*  (at your option) any later version.
+*
+*  This program is distributed in the hope that it will be useful,
+*  but WITHOUT ANY WARRANTY; without even the implied warranty of
+*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+*  GNU General Public License for more details.
+*
+*  You should have received a copy of the GNU General Public License
+*  along with this program; if not, write to the Free Software
+*  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+*
+*
+* ver: 1.14
+* date: 15. April, 2010.
+*
 */
 
 #define WIN32_LEAN_AND_MEAN
@@ -137,7 +137,7 @@ unsigned int WQueue::PushLast(void *pSource, unsigned int nSize)
 	{
 		elem->alloc_buf = 0;
 		elem->data = pSource;
-		
+
 	}
 	else
 	{
@@ -154,7 +154,7 @@ unsigned int WQueue::PushLast(void *pSource, unsigned int nSize)
 
 		elem->alloc_buf = data;
 		elem->data = data;
-		
+
 	}
 
 	elem->data_id = pSource;
@@ -196,20 +196,20 @@ unsigned int WQueue::PullFirst(void *pDest, unsigned int nSize)
 	if(pDest == 0)
 		return c_first->size;
 
-	
+
 
 	// get smaller value of size
 	unsigned int size = nSize < c_first->size ? nSize : c_first->size;
 
 	if(size)
 		memcpy(pDest, c_first->data, size);
-	
+
 	c_num--;
 	c_sum_size -= c_first->size;
 
 
 	QUEUE_ELEMENT *next = c_first->next;
-	
+
 	if(next != 0)
 	{
 		next->prev = 0;
@@ -276,6 +276,27 @@ unsigned int WQueue::PullLast(void *pDest, unsigned int nSize)
 
 	return size;
 
+}
+
+
+unsigned int WQueue::QueryIndex(void *pDest, unsigned int nSize, unsigned int index){
+	if(c_num == 0)
+		return 0;
+
+	if(pDest == 0 || nSize == 0)
+		return c_first->size;
+
+	if(index >= c_num)
+		return 0;
+
+	QUEUE_ELEMENT *item = c_first;
+	for (int i = 0; i < index; i++){
+		item = item->next;
+	}
+	unsigned int size = nSize < item->size ? nSize : item->size;
+	memcpy(pDest, item->data, size); 
+
+	return size;
 }
 
 
@@ -391,7 +412,7 @@ unsigned int WQueue::PullDataFifo(void *pOutputBuffer, unsigned int nBytesToRead
 	unsigned int nOutBufferNum = 0;
 	if(c_num == 0 || c_sum_size == 0 || nBytesToRead == 0)
 		return 0;
-	
+
 
 	unsigned int nBytesRead = 0;
 	unsigned int nByteNeed = nBytesToRead;
@@ -403,7 +424,7 @@ unsigned int WQueue::PullDataFifo(void *pOutputBuffer, unsigned int nBytesToRead
 		{
 			memcpy(pBuffer, c_first->data, nByteNeed);
 			nBytesRead += nByteNeed;
-			
+
 			c_first->size -= nByteNeed;
 			c_sum_size -= nByteNeed;
 
@@ -416,11 +437,11 @@ unsigned int WQueue::PullDataFifo(void *pOutputBuffer, unsigned int nBytesToRead
 			else	// element isn't empty, but we have removed some data from element
 			{
 				c_first->data = (char*)c_first->data +  nByteNeed;	
-		
+
 			}
 
 			nByteNeed = 0;
-		
+
 		}
 		else
 		{
@@ -520,7 +541,7 @@ int WQueue::QueryData(unsigned int nOffset, void *pOutputBuffer, unsigned int nB
 			continue;
 		}
 
-			
+
 		// start is in this element, get data
 		data = (char*) elem->data + nNeedOffset;
 		nHaveData = elem->size - nNeedOffset;
@@ -539,7 +560,7 @@ int WQueue::QueryData(unsigned int nOffset, void *pOutputBuffer, unsigned int nB
 		elem = elem->next;
 		break;
 	}
-	
+
 	// get rest of data
 	while(elem)
 	{
@@ -549,13 +570,13 @@ int WQueue::QueryData(unsigned int nOffset, void *pOutputBuffer, unsigned int nB
 			*nBytesRead = nBytesToRead;
 			return 1;
 		}
-		
+
 		// we don't have all data we need in this element, copy what we have and go to next element
 		memcpy(output, elem->data, elem->size);
 		nNeedData -= elem->size;
 		output += elem->size;
 		elem = elem->next;
-			
+
 	}
 
 	// no more data in queue
@@ -575,7 +596,7 @@ int WQueue::CutDataFifo(unsigned int nBytesToCut)
 
 	if(nBytesToCut == 0)
 		return 1;
-	
+
 	unsigned int nByteNeed = nBytesToCut;
 
 	while(c_sum_size)
@@ -591,9 +612,9 @@ int WQueue::CutDataFifo(unsigned int nBytesToCut)
 				c_first->size -= nByteNeed;
 				c_first->data = (char*)c_first->data +  nByteNeed;
 			}	
-		
+
 			return 1;
-		
+
 		}
 		else
 		{
@@ -683,7 +704,7 @@ int DelayLine::ReAllocate(unsigned int nMaxDelaySize, unsigned int nChunkSize)
 	if(main == 0)
 		return 0;
 
-		// shift data left, e.g. move window to right
+	// shift data left, e.g. move window to right
 	if(c_nShift)
 	{
 		c_pchWindowStart += c_nShift;
@@ -695,7 +716,7 @@ int DelayLine::ReAllocate(unsigned int nMaxDelaySize, unsigned int nChunkSize)
 	// copy memory from window to reallocated space
 
 	memset(main, 0, nMaxDelaySize);
-	 
+
 	if(c_nWindowSize)
 		memcpy(main, c_pchWindowStart, c_nWindowSize);
 	else
@@ -728,7 +749,7 @@ int DelayLine::Free()
 	// free main buffer memory
 	if(c_pchMainBuffer)
 		free(c_pchMainBuffer);
-	
+
 	c_pchMainBuffer = 0;
 	c_nMainBufferSize = 0;
 	c_pchNewData = 0;
