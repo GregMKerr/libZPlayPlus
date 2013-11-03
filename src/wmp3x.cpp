@@ -771,6 +771,7 @@ int __stdcall WMp3x::Stop()
 
 int __stdcall WMp3x::Play()
 {	
+
 	err(WMP3X_NO_ERROR);
 
 	if(c_fReady == 0)
@@ -788,6 +789,7 @@ int __stdcall WMp3x::Play()
 
 	if(c_fPlay)
     	return 1;
+
 
 // ====== INITIALIZE VARIABLES USED BY OTHER FUNCTIONS ( GetPosition )
 	c_fLoop = 0;
@@ -3621,7 +3623,7 @@ int WINAPI WMp3x::_ThreadFuncPCM(void* lpdwParam)
 						if(decoder)
 						{
 							instance->c_InputProcessor.Flush(1);
-							instance->c_nSongIndex++;//apparently the index i need already exists...
+							instance->c_nSongIndex++;
 
 
 							// delete old decoder, but preserve info
